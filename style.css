@@ -24,8 +24,17 @@ body {
     align-items: center;
 }
 
+/* Colors */
 .main-color {
-    background-color: #ffe078;
+    background-color: #f5f5f5;
+}
+
+.primary-font-color {
+    color: black;
+}
+
+.secondary-font-color {
+    color: rgb(19, 19, 19);
 }
 
 /* Configuring the main three elements */
@@ -40,23 +49,34 @@ body {
 
 /* Main elements */
 .main-box {
-    margin: 0 20px;
+    margin: 0 4px;
     aspect-ratio: 1/1;
     border-radius: 8px;
-    border: 1px, solid black;;
+    border: 1px, solid black;
+    box-shadow: 0 0 8px black;
 }
 
 .main-sketch {
     background-color: white;
-    margin: 16px;
+    margin: 8px;
     aspect-ratio: 1/1;
-    border-radius: 4px;
     flex-direction: column;
-    border: 1px, solid black;;
+    border: 1px, solid black;
 }
 
 .grid-element {
     border: 1px, solid rgb(66, 66, 66);
+}
+
+/* Side menu */
+.side-panel {
+    justify-content: flex-end;
+}
+
+.menu {
+    flex-direction: column;
+    gap: 24px;
+    margin-right: 48px;
 }
 
 /* Title and footer config */
@@ -68,6 +88,5 @@ body {
 
 .footer-info {
     font-weight: 300;
-    color: rgb(41, 41, 41);
     font-size: 24px;
 }
