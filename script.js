@@ -2,8 +2,9 @@
 let grid_size = 16;
 const sketch_area = document.getElementById("main-grid");
 let paint_color = "#a3d3ff";
-let curr_rgb = [];
 let mouse_down = false;
+const color_picker = document.getElementById("color-picker");
+//TODO: MAKE CHANGES TO HEX DIRECTLY INSTEAD OF DEALING W RGB
 
 /**
  * Paint given target with current paint_color
@@ -56,17 +57,29 @@ function create_grid (use_size) {
     return null;
 }
 
-/** Generates a random color and returns it in RGB string format. Also adds colors to curr_rgb
+/** Generates a random color and returns it in hex string format.
  * @returns {string}
  */
 function get_random_color() {
     const get_rand = () => Math.floor(Math.random() * 256);
 
-    curr_rgb[0] = get_rand();
-    curr_rgb[1] = get_rand();
-    curr_rgb[2] = get_rand();
+    return rgb_to_hex_string(get_rand(), get_rand(), get_rand())
+}
 
-    return `rgb(${curr_rgb[0]}, ${curr_rgb[1]}, ${curr_rgb[2]})`
+/**
+ * @param {number} r 
+ * @param {number} g 
+ * @param {number} b 
+ * @returns {string}
+ */
+function rgb_to_hex_string (r, g, b) {
+    const to_hex = (c) => c.toString(16).padStart(2, '0');
+    return `#${to_hex(r)}${to_hex(g)}${to_hex(b)}`;
+}
+
+function new_color_input() {
+    paint_color = color_picker.value;
+    paint_page();
 }
 
 /**
@@ -94,9 +107,20 @@ function paint_page() {
             return clr <= 0.04045 ? clr / 12.92 : Math.pow((clr + 0.055) / 1.055, 2.4);
         }
 
-        //Add supprot for changing curr_rgb array given the curr paint color
+        /**
+         * @param {string} hex
+         * @returns {Number[]}
+         */
+        function rgb_array_given_hex(hex) {
+            let r = 0, g = 0, b = 0;
+            r = +`0x${hex[1]}${hex[2]}`;
+            g = +`0x${hex[3]}${hex[4]}`;
+            b = +`0x${hex[5]}${hex[6]}`;
 
-        const linear_rgb = curr_rgb.map((clr) => sRGB_to_linear(clr));
+            return [r,g,b];
+        }
+
+        const linear_rgb = rgb_array_given_hex(paint_color).map((clr) => sRGB_to_linear(clr));
 
         return 0.2126 * linear_rgb[0] + 0.7152 * linear_rgb[1] + 0.0722 * linear_rgb[2];
     }
@@ -109,20 +133,26 @@ function paint_page() {
         const primary_fonts = [...document.getElementsByClassName("primary-font-color")];
         const secondary_fonts = [...document.getElementsByClassName("secondary-font-color")];
 
-        if (luminance === "white") {
-            primary_fonts.forEach(element => {
-                element.style.color = "#ffffff";
-            });
+        let primary_color = "#ffffff";
+        let secondary_color = "#f5f5f5";
 
-            secondary_fonts.forEach(element => {
-                element.style.color = "#f5f5f5";
-            });
+        if (luminance === "black") {
+            primary_color = "#000000ff"
+            secondary_color = "#131313ff";
         }
+        
+        primary_fonts.forEach(element => {
+            element.style.color = primary_color;
+        });
+
+        secondary_fonts.forEach(element => {
+            element.style.color = secondary_color;
+        });
 
         return null;
     }
 
-    get_luminance() < 0.179 ? recolor_text('white') : true;
+    get_luminance() < 0.179 ? recolor_text('white') : recolor_text('black');
 
     return null;
 }
@@ -131,8 +161,11 @@ function paint_page() {
 /* Adding general event listeners */
 document.addEventListener('pointerdown', () => mouse_down = true);
 document.addEventListener('pointerup', () => mouse_down = false);
+color_picker.addEventListener('input', () => new_color_input())
+
 
 /* Initialize grid and colors */
 create_grid(grid_size);
 paint_color = get_random_color();
+color_picker.value = paint_color; //Initialize color picker to random color page loads with
 paint_page();

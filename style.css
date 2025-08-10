@@ -79,11 +79,51 @@ body {
     margin-right: 48px;
 }
 
+button {
+    background-color: white;
+    border-radius: 4px;
+    min-width: 148px;
+    min-height: 40px;
+    font-size: 20px;
+    font-weight: 400;
+}
+
+.color-picker-container {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 2px solid black;
+}
+
+#color-picker {
+    width: 100%;
+    height: 100%;
+    border: 0;
+    padding: 0;
+    margin: 0;
+    border-color: black;
+    padding-block: 0;
+    padding-inline: 0;
+}
+
+input[type="color"]::-webkit-color-swatch-wrapper {
+  padding: 0;
+  border-radius: 0;
+}
+
+input[type="color"]::-webkit-color-swatch {
+  border: none;
+}
+
 /* Title and footer config */
-.title, .footer-info{
+.main-font {
     font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+.title, .footer-info{
     font-weight: bold;
-    font-size: 48px
+    font-size: 48px;
 }
 
 .footer-info {

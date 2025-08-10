@@ -11,16 +11,18 @@
 
     <div class="main-content flex-container">
         <div class="header flexer main-color flex-container center-all">
-            <div class="title primary-font-color">Etch-a-Sketch!</div>
+            <div class="title primary-font-color main-font">Etch-a-Sketch!</div>
         </div>
         <div class="sketch-area flexer flex-container center-all">
             <div class="side-panel flexer flex-container center-all">
                 <div class="menu flex-container center-all">
-                    <input type="color" id="color-picker">
-                    <button>Color</button>
-                    <button>Rainbow</button>
-                    <button>Eraser</button>
-                    <button>Reset</button>
+                    <div class="color-picker-container">
+                        <input type="color" id="color-picker" class="main-color">
+                    </div>
+                    <button class="main-font" id="color-mode">Color</button>
+                    <button class="main-font" id="rainbow-mode">Rainbow</button>
+                    <button class="main-font" id="eraser-mode">Eraser</button>
+                    <button class="main-font" id="reset">Reset</button>
                     <input type="range" min="0" max="100" step="1">
                 </div>
             </div>
@@ -33,7 +35,7 @@
             </div>
             <div class="side-panel flexer"></div>
         </div>
-        <div class="footer flexer main-color flex-container center-all">
+        <div class="footer flexer main-color flex-container center-all main-font">
             <div class="footer-info secondary-font-color"> Created by <a class="primary-font-color" href="https://github.com/chiofus" target="_blank">chiofus</a></div>
         </div>
     </div>
