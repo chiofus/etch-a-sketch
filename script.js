@@ -194,7 +194,7 @@ function initialize_effects() {
 
 /* Adding general event listeners */
 document.addEventListener('pointerdown', (event) => {
-    if (event.button === 1) {
+    if (event.button === 1 || event.button === 0) {
         mouse_down = true;
     }
 });
