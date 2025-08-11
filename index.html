@@ -16,14 +16,17 @@
         <div class="sketch-area flexer flex-container center-all">
             <div class="side-panel flexer flex-container center-all">
                 <div class="menu flex-container center-all">
-                    <div class="color-picker-container">
-                        <input type="color" id="color-picker" class="main-color">
+                    <div class="color-picker-container hover-effect">
+                        <input type="color" id="color-picker" class="main-color hover-effect">
                     </div>
-                    <button class="main-font" id="color-mode">Color</button>
-                    <button class="main-font" id="rainbow-mode">Rainbow</button>
-                    <button class="main-font" id="eraser-mode">Eraser</button>
-                    <button class="main-font" id="reset">Reset</button>
-                    <input type="range" min="0" max="100" step="1">
+                    <button class="main-font hover-effect mode activate">Color</button>
+                    <button class="main-font hover-effect mode">Rainbow</button>
+                    <button class="main-font hover-effect mode">Eraser</button>
+                    <button class="main-font hover-effect" id="reset">Reset</button>
+                    <div class="flex-container grid-selection center-all">
+                        <input id="grid-size-input" type="range" min="4" max="100" step="1">
+                        <div id="grid-size-display" class="main-font">100</div>
+                    </div>
                 </div>
             </div>
             <div class="main-panel flexer flex-container center-all">

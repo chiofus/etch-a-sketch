@@ -4,17 +4,26 @@ const sketch_area = document.getElementById("main-grid");
 let paint_color = "#a3d3ff";
 let mouse_down = false;
 const color_picker = document.getElementById("color-picker");
-//TODO: MAKE CHANGES TO HEX DIRECTLY INSTEAD OF DEALING W RGB
+let curr_mode = "Color";
+const grid_size_display = document.getElementById("grid-size-display");
+const grid_size_input = document.getElementById("grid-size-input");
 
 /**
  * Paint given target with current paint_color
  * @param {MouseEvent} event_on_div 
  */
 function paint_div (event_on_div) {
-    if (mouse_down || event_on_div.type === 'click') {
-        console.log(event_on_div.type)
-        event_on_div.target.style.backgroundColor = paint_color;
-        console.log(`Painting element ${event_on_div.target}`)
+    if (mouse_down) {
+        if (curr_mode === "Color") {
+            event_on_div.target.style.backgroundColor = paint_color;
+        }
+        else if (curr_mode === "Rainbow" && !(event_on_div.target.classList.contains("rainbowed"))) {
+            event_on_div.target.style.backgroundColor = get_random_color();
+            event_on_div.target.classList.add("rainbowed")
+        }
+        else if (curr_mode === "Eraser") {
+            event_on_div.target.style.backgroundColor = "#ffffff";
+        }
     }
 }
 
@@ -24,12 +33,6 @@ function paint_div (event_on_div) {
  * @returns {null}
  */
 function create_grid (use_size) {
-
-    /**
-     * @type {HTMLElement[]}
-     */
-    const grid_divs = [];
-
     for (let i = 0; i < use_size; i++) { //Creating rows to append to main grid
         const new_row = document.createElement("div");
         new_row.classList.add("row", "flexer", "flex-container")
@@ -38,15 +41,15 @@ function create_grid (use_size) {
             const new_div = document.createElement("div");
             new_div.classList.add("grid-element", "flexer");
             new_row.appendChild(new_div);
-            grid_divs.push(new_div);
 
             /* Adding listeners */
-            new_div.addEventListener('mousemove', (event) => paint_div(event)); //paint when moving inside element
-            new_div.addEventListener('click', (event) => paint_div(event)); //paint when clicking on element
+            new_div.addEventListener('pointermove', (event) => paint_div(event)); //paint when moving inside element
+            new_div.addEventListener('pointerleave', () => {
+                new_div.classList.remove("rainbowed");
+            });
         }
 
         sketch_area.appendChild(new_row);
-
     }
 
     /* Disable drag */
@@ -75,11 +78,6 @@ function get_random_color() {
 function rgb_to_hex_string (r, g, b) {
     const to_hex = (c) => c.toString(16).padStart(2, '0');
     return `#${to_hex(r)}${to_hex(g)}${to_hex(b)}`;
-}
-
-function new_color_input() {
-    paint_color = color_picker.value;
-    paint_page();
 }
 
 /**
@@ -157,15 +155,69 @@ function paint_page() {
     return null;
 }
 
+function initialize_effects() {
+    const apply_hover = [...document.getElementsByClassName("hover-effect")];
+    const modes = [...document.getElementsByClassName("mode")];
+    const reset_btn = document.getElementById("reset");
+
+    apply_hover.forEach(element => {
+        element.addEventListener('pointerover', () => {
+            element.style.transform = "scale(1.1)";
+            element.style.cursor = "pointer";
+
+        });
+        element.addEventListener('pointerout', () => {
+            element.style.transform = "scale(1.0)";
+            element.style.cursor = "auto";
+        });
+    });
+
+    modes.forEach(element => {
+        element.addEventListener('click', () => {
+            modes.forEach(btn => {
+                btn.classList.remove("activate");
+            });
+            element.classList.add("activate");
+            curr_mode = element.textContent;
+        });
+    });
+
+    reset_btn.addEventListener('click', () => {
+        const grid_divs = [...document.getElementsByClassName("grid-element")];
+        grid_divs.forEach(div => {
+            div.style.backgroundColor = "#ffffff";
+        });
+    });
+
+    grid_size_display.textContent = `${grid_size} x ${grid_size}`
+}
 
 /* Adding general event listeners */
-document.addEventListener('pointerdown', () => mouse_down = true);
+document.addEventListener('pointerdown', (event) => {
+    if (event.button === 1) {
+        mouse_down = true;
+    }
+});
 document.addEventListener('pointerup', () => mouse_down = false);
-color_picker.addEventListener('input', () => new_color_input())
-
+color_picker.addEventListener('input', () => {
+    paint_color = color_picker.value;
+    paint_page();
+});
+grid_size_input.addEventListener('click', () => {
+    [...sketch_area.childNodes].forEach(child => { //delete all children on sketch
+        child.remove();
+    });
+    
+    create_grid(grid_size);
+});
+grid_size_input.addEventListener('input', () => {
+    grid_size = grid_size_input.value;
+    grid_size_display.textContent = `${grid_size} x ${grid_size}`
+});
 
 /* Initialize grid and colors */
 create_grid(grid_size);
 paint_color = get_random_color();
 color_picker.value = paint_color; //Initialize color picker to random color page loads with
 paint_page();
+initialize_effects();

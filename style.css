@@ -64,10 +64,6 @@ body {
     border: 1px, solid black;
 }
 
-.grid-element {
-    border: 1px, solid rgb(66, 66, 66);
-}
-
 /* Side menu */
 .side-panel {
     justify-content: flex-end;
@@ -114,6 +110,48 @@ input[type="color"]::-webkit-color-swatch-wrapper {
 
 input[type="color"]::-webkit-color-swatch {
   border: none;
+}
+
+.hover-effect {
+    transition: transform 0.5 ease, background-color 0.5s ease;
+}
+
+.activate {
+    background-color: black;
+    color: #ffffff;
+}
+
+input[type="range"] {
+  -webkit-appearance: none; /* Remove default styling */
+  width: 100%; /* Adjust as needed */
+  height: 8px; /* Height of the track */
+  background: #ffffff; /* Default track color */
+  border-radius: 5px;
+  outline: 1px solid black;
+}
+
+/* WebKit Thumb */
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 20px;
+  height: 20px;
+  background: #000000; /* Thumb color */
+  border-radius: 50%;
+  cursor: pointer;
+  margin-top: -6px; /* Adjust to center thumb on track */
+}
+
+/* WebKit Track */
+input[type="range"]::-webkit-slider-runnable-track {
+  width: 100%;
+  height: 8px;
+  /* background: #ddd; */
+  border-radius: 5px;
+}
+
+.grid-selection {
+    flex-direction: column;
+    gap: 12px
 }
 
 /* Title and footer config */
