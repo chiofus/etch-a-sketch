@@ -5,4 +5,4 @@ This project that taught me about JavaScript integration into a web development 
 
 It was very rewarding to learn how to dynamically add HTML elements using JavaScript.
 I had a lot of fun developing the painting functionailities for the website, and I learned a lot about what standards are used to make sure text remains eligible and readable despite the background color of a website.
-I also learned a lot about the different input elements that be used in a website (color picker, range for selecting the grid size).
+I also learned a lot about the different input elements that can be used in a website (color picker, range for selecting the grid size).
